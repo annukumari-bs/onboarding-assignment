@@ -72,9 +72,9 @@ const ProductListingPage = () => {
 
   return (
     <div className="py-8 px-4 md:px-12 lg:px-28">
-      <h1 className="text-3xl font-semibold mb-3 text-left">E-Commerce Shop</h1>
+      <h1 className="text-3xl font-semibold mb-3 text-left">E-Commerce Shop App</h1>
       <div className="w-full md:w-1/2 text-left text-gray-500 mb-10">
-        Browse our collection of high-quality products. Use the filters to find exactly what you're looking for.
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
       </div>
 
       <div className="flex flex-col md:flex-row w-full">

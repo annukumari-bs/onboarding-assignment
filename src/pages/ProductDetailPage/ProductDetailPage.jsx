@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { FiHeart, FiShare2 } from 'react-icons/fi';
 import { fetchProductById } from '../../features/products/productSlice';
+import { toggleWishlist } from '../../features/wishlist/wishlistSlice';
 import { useCartControls } from '../../hooks/useCartControls';
 import { FALLBACK_IMAGES } from '../../constants';
 
@@ -9,8 +12,11 @@ const ProductDetailPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const { currentProduct, status: productStatus } = useSelector(state => state.products);
+  const wishlistedItems = useSelector(state => state.wishlist?.items || []);
   
   const { quantityInCart, handleIncrement, handleDecrement, status: cartStatus } = useCartControls(currentProduct?.id, currentProduct?.title);
+  
+  const isWishlisted = currentProduct ? wishlistedItems.includes(currentProduct.id) : false;
 
   useEffect(() => {
     if (id) {
@@ -18,8 +24,19 @@ const ProductDetailPage = () => {
     }
   }, [id, dispatch]);
 
+  const handleWishlistClick = () => {
+    if (!currentProduct) return;
+    dispatch(toggleWishlist(currentProduct.id));
+    toast.success(isWishlisted ? 'Removed from wishlist!' : 'Added to wishlist!');
+  };
+
+  const handleShareClick = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast.info('Product link copied to clipboard!');
+  };
+
   const handleImageError = (e) => {
-    const fallbackIndex = id % FALLBACK_IMAGES.length;
+    const fallbackIndex = Number(id) % FALLBACK_IMAGES.length;
     e.target.src = FALLBACK_IMAGES[fallbackIndex];
   };
 
@@ -36,19 +53,24 @@ const ProductDetailPage = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
-                <img 
-                  src={currentProduct.image} 
-                  alt={currentProduct.title} 
-                  onError={handleImageError} // <-- ADD ONERROR HANDLER
-                  className="w-full h-auto object-cover rounded-lg shadow-lg" 
-                />
+                <img src={currentProduct.image} alt={currentProduct.title} onError={handleImageError} className="w-full h-auto object-cover rounded-lg shadow-lg" />
             </div>
             <img src="https://placehold.co/400x400/f0f0f0/ccc?text=+" alt="thumbnail" className="w-full h-auto object-cover rounded-lg" />
             <img src="https://placehold.co/400x400/f0f0f0/ccc?text=+" alt="thumbnail" className="w-full h-auto object-cover rounded-lg" />
         </div>
 
         <div>
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">{currentProduct.title}</h1>
+          <div className="flex justify-between items-start mb-2">
+            <h1 className="text-4xl font-bold text-gray-800 flex-grow">{currentProduct.title}</h1>
+            <div className="flex items-center gap-4 pl-4">
+              <button onClick={handleWishlistClick} aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}>
+                <FiHeart className={`w-6 h-6 transition-all ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-500 hover:text-red-500'}`} />
+              </button>
+              <button onClick={handleShareClick} aria-label="Share product">
+                <FiShare2 className="w-6 h-6 text-gray-500 hover:text-blue-600"/>
+              </button>
+            </div>
+          </div>
           <p className="text-3xl text-gray-900 mb-4">₹{currentProduct.price.toFixed(2)}</p>
           <p className="text-gray-600 mb-6">{currentProduct.description}</p>
           
@@ -80,3 +102,4 @@ const ProductDetailPage = () => {
 };
 
 export default ProductDetailPage;
+

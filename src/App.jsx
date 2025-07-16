@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Header from './components/Header/Header';
 import ProductListingPage from './pages/ProductListingPage/ProductListingPage';
 import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage'
+import CartPage from './pages/CartPage/CartPage';
 import { fetchCart } from './features/cart/cartSlice';
 import { fetchProducts } from './features/products/productSlice';
 
@@ -37,6 +38,7 @@ function App() {
           <Routes>
             <Route path="/" element={<ProductListingPage />} />
             <Route path="/product/:id" element={<ProductDetailPage />} />
+            <Route path="/cart" element={<CartPage />} />
           </Routes>
         </main>
       </div>

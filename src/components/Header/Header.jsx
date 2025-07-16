@@ -20,6 +20,7 @@ const Header = () => {
           <input type="text" placeholder='Search' className='text-gray-500' />
         </div>
       </div>
+      <div className='flex gap-10 justify-center items-center'>
       <Link to="/cart" className="relative" aria-label="View shopping cart">
         <PiHandbagSimpleLight className="w-6 h-6 text-gray-700 hover:text-blue-600 transition" />
         {totalItemsInCart > 0 && (
@@ -28,6 +29,8 @@ const Header = () => {
           </span>
         )}
       </Link>
+      <Link to="/login" className="text-gray-600 hover:text-blue-600 transition">Login</Link>
+      </div>
     </header>
   );
 };
