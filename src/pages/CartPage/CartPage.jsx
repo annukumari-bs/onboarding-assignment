@@ -34,6 +34,7 @@ const CartPage = () => {
   const { items: cartItems, status: cartStatus } = useSelector(state => state.cart);
   const allProducts = useSelector(state => state.products.all);
   const [loadingItemId, setLoadingItemId] = useState(null);
+  const [couponCode, setCouponCode] = useState('');
 
   const populatedCartItems = cartItems.map(item => {
     const productDetails = allProducts.find(p => p.id === item.productId);
@@ -69,7 +70,7 @@ const CartPage = () => {
 
   if (cartItems.length === 0) {
     return (
-        <div className="text-center py-20 px-4">
+        <div className="text-center py-20">
             <h1 className="text-3xl font-bold text-gray-700">Your Cart is Empty</h1>
             <Link to="/" className="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">
                 Continue Shopping
@@ -85,7 +86,7 @@ const CartPage = () => {
       
       <div className="flex flex-col lg:flex-row gap-12">
         {/* Left Side: Cart Items */}
-        <div className="lg:w-2/3">
+        <div className="lg:w-3/5">
           <div className="space-y-6">
             {populatedCartItems.map(item => {
               const isLoading = loadingItemId === item.productId;
@@ -120,9 +121,22 @@ const CartPage = () => {
         </div>
 
         {/* Right Side: Order Summary */}
-        <div className="lg:w-1/3">
+        <div className="lg:w-2/5">
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <h2 className="text-2xl font-semibold mb-6">Order Summary</h2>
+            
+            {/* Coupon Code Section */}
+            <div className="mb-6">
+                <input 
+                    type="text" 
+                    id="coupon"
+                    placeholder='Enter coupon code here' 
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    className="w-full border-black border rounded-md shadow-sm p-2"
+                />
+            </div>
+
             <div className="space-y-4">
               <div className="flex justify-between">
                 <span>Subtotal</span>
@@ -145,7 +159,7 @@ const CartPage = () => {
       </div>
 
       {/* Order Information Section */}
-      <div className="mt-16 lg:w-2/3">
+      <div className="mt-16 lg:w-3/5">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Order Information</h2>
         <div className="border-t">
             <AccordionItem title="Return Policy">

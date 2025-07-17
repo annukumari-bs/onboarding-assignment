@@ -28,7 +28,7 @@ const ProductCard = ({
         <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate w-full" title={title}>{title}</h3>
         <p className="text-sm text-gray-600 mb-1">Rating: {rating.toFixed(1)} ★</p>
         <div className="mt-auto pt-2">
-          <p className="text-lg md:text-xl font-bold text-blue-600">₹{price.toFixed(2)}</p>
+          <p className="text-lg md:text-xl font-bold text-black">₹{price.toFixed(2)}</p>
         </div>
       </div>
     </Link>

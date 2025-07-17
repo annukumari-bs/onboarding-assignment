@@ -185,7 +185,7 @@ const ProductListingPage = () => {
                 <div className="text-center mt-8">
                   <button
                     onClick={() => dispatch(loadMore())}
-                    className="bg-indigo-600 text-white px-6 py-2 rounded-lg hover:bg-indigo-700 transition-all font-medium"
+                    className="bg-white border-black border text-black px-6 py-2 rounded-lg hover:bg-black hover:text-white transition-all font-medium"
                   >
                     Load More Products
                   </button>
