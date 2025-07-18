@@ -118,7 +118,7 @@ describe('CartPage', () => {
 
       renderWithRouter(<CartPage />);
       
-      const removeButtons = screen.getAllByRole('button', { name: 'Remove' });
+      const removeButtons = screen.getAllByRole('button', { name: /remove .* from cart/i });
       await user.click(removeButtons[0]);
       
       expect(dispatch).toHaveBeenCalled();
@@ -137,7 +137,7 @@ describe('CartPage', () => {
   
         renderWithRouter(<CartPage />);
         
-        const removeButtons = screen.getAllByRole('button', { name: 'Remove' });
+        const removeButtons = screen.getAllByRole('button', { name: /remove .* from cart/i });
         await user.click(removeButtons[0]);
   
         expect(toast.error).toHaveBeenCalledWith('Failed to update cart.', expect.any(Error));

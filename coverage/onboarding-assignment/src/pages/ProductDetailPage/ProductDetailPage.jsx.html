@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.5% </span>
+                <span class="strong">81.53% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>97/122</span>
+                <span class='fraction'>106/130</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">60.71% </span>
+                <span class="strong">62.96% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>17/28</span>
+                <span class='fraction'>17/27</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">79.5% </span>
+                <span class="strong">81.53% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>97/122</span>
+                <span class='fraction'>106/130</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -208,7 +208,17 @@
 <a name='L143'></a><a href='#L143'>143</a>
 <a name='L144'></a><a href='#L144'>144</a>
 <a name='L145'></a><a href='#L145'>145</a>
-<a name='L146'></a><a href='#L146'>146</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L146'></a><a href='#L146'>146</a>
+<a name='L147'></a><a href='#L147'>147</a>
+<a name='L148'></a><a href='#L148'>148</a>
+<a name='L149'></a><a href='#L149'>149</a>
+<a name='L150'></a><a href='#L150'>150</a>
+<a name='L151'></a><a href='#L151'>151</a>
+<a name='L152'></a><a href='#L152'>152</a>
+<a name='L153'></a><a href='#L153'>153</a>
+<a name='L154'></a><a href='#L154'>154</a>
+<a name='L155'></a><a href='#L155'>155</a>
+<a name='L156'></a><a href='#L156'>156</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -217,6 +227,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -274,7 +285,6 @@
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -288,6 +298,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -318,11 +329,19 @@
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-yes">5x</span>
@@ -353,7 +372,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useState } from 'react';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -362,6 +382,7 @@ import { fetchProductById } from '../../features/products/productSlice';
 import { toggleWishlist } from '../../features/wishlist/wishlistSlice';
 import { addToCart } from '../../features/cart/cartSlice';
 import { FALLBACK_IMAGES } from '../../constants';
+import productImage from '../../assets/product.png';
 &nbsp;
 const ProductDetailPage = () =&gt; {
   const { id } = useParams();
@@ -417,8 +438,7 @@ const ProductDetailPage = () =&gt; {
   };
 &nbsp;
   const handleImageError = <span class="fstat-no" title="function not covered" >(e) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >    const fallbackIndex = Number(id) % FALLBACK_IMAGES.length;</span>
-<span class="cstat-no" title="statement not covered" >    e.target.src = FALLBACK_IMAGES[fallbackIndex];</span>
+<span class="cstat-no" title="statement not covered" >    e.target.src = productImage;</span>
 <span class="cstat-no" title="statement not covered" >  };</span>
 &nbsp;
   const renderActionButton = () =&gt; {
@@ -426,19 +446,20 @@ const ProductDetailPage = () =&gt; {
 <span class="cstat-no" title="statement not covered" >      return (</span>
 <span class="cstat-no" title="statement not covered" >        &lt;button</span>
 <span class="cstat-no" title="statement not covered" >          onClick={<span class="fstat-no" title="function not covered" >() =&gt; navigate('/cart')}</span></span>
-<span class="cstat-no" title="statement not covered" >          className="w-full bg-green-600 text-white font-semibold px-8 py-3 rounded-md hover:bg-green-700 transition"</span>
+<span class="cstat-no" title="statement not covered" >          className="w-full bg-black text-white font-semibold px-8 py-3 hover:bg-white hover:text-black hover:border-black border transition"</span>
 <span class="cstat-no" title="statement not covered" >        &gt;</span>
           Go to Cart
 <span class="cstat-no" title="statement not covered" >        &lt;/button&gt;</span>
       );
 <span class="cstat-no" title="statement not covered" >    }</span>
 &nbsp;
-    const buttonText = <span class="branch-0 cbranch-no" title="branch not covered" >isAlreadyInCart ? 'Update Cart' : '</span>Add to Cart';
+    const buttonText =  'Add to Cart';
     return (
       &lt;button
         onClick={handleCartAction}
         disabled={isLoading}
-        className="bg-gray-900 text-white font-semibold px-8 py-3 rounded-md hover:bg-gray-700 transition flex-grow disabled:bg-gray-400 disabled:cursor-wait"
+        aria-busy={isLoading}
+        className="bg-gray-900 text-white font-semibold px-8 py-3 hover:bg-gray-700 transition flex-grow disabled:bg-gray-400 disabled:cursor-wait"
       &gt;
         {<span class="branch-0 cbranch-no" title="branch not covered" >isLoading ? 'Updating...' : `</span>${buttonText} - ₹${(currentProduct.price * quantity).toFixed(2)}`}
       &lt;/button&gt;
@@ -446,29 +467,34 @@ const ProductDetailPage = () =&gt; {
   };
 &nbsp;
   if (productStatus === 'loading') <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >    return &lt;div className="text-center py-20"&gt;Loading Product...&lt;/div&gt;;</span>
+<span class="cstat-no" title="statement not covered" >    return &lt;div className="text-center py-20" role="status"&gt;Loading Product...&lt;/div&gt;;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 &nbsp;
   if (productStatus === 'failed' || !currentProduct) {
-    return &lt;div className="text-center py-20"&gt;Failed to load product. Please try again.&lt;/div&gt;;
+    return &lt;div className="text-center py-20" role="alert"&gt;Failed to load product. Please try again.&lt;/div&gt;;
   }
 &nbsp;
   return (
-    &lt;div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12"&gt;
+    &lt;main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12"&gt;
       &lt;div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start"&gt;
-        &lt;div className="grid grid-cols-2 gap-4"&gt;
-            &lt;div className="col-span-2"&gt;
-                &lt;img src={currentProduct.image} alt={currentProduct.title} onError={handleImageError} className="w-full h-auto object-cover rounded-lg shadow-lg" /&gt;
-            &lt;/div&gt;
-            &lt;img src="https://placehold.co/400x400/f0f0f0/ccc?text=+" alt="thumbnail" className="w-full h-auto object-cover rounded-lg" /&gt;
-            &lt;img src="https://placehold.co/400x400/f0f0f0/ccc?text=+" alt="thumbnail" className="w-full h-auto object-cover rounded-lg" /&gt;
-        &lt;/div&gt;
+            &lt;section aria-label="Product image gallery"&gt;
+                &lt;div className="grid grid-cols-2 gap-4"&gt;
+                    &lt;img src={currentProduct.image} alt={`Alternative view 1 of ${currentProduct.title}`} onError={handleImageError} className="w-full h-auto object-cover" /&gt;
+                    &lt;img src={currentProduct.image} alt={`Alternative view 2 of ${currentProduct.title}`} onError={handleImageError} className="w-full h-auto object-cover" /&gt;
+                    &lt;img src={currentProduct.image} alt={`Alternative view 3 of ${currentProduct.title}`} onError={handleImageError} className="w-full h-auto object-cover" /&gt;
+                    &lt;img src={currentProduct.image} alt={`Alternative view 4 of ${currentProduct.title}`} onError={handleImageError} className="w-full h-auto object-cover" /&gt;
+                &lt;/div&gt;
+            &lt;/section&gt;
 &nbsp;
-        &lt;div&gt;
+        &lt;section aria-labelledby="product-heading"&gt;
           &lt;div className="flex justify-between items-start mb-2"&gt;
-            &lt;h1 className="text-4xl font-bold text-gray-800 flex-grow"&gt;{currentProduct.title}&lt;/h1&gt;
+            &lt;h1 id="product-heading" className="text-4xl font-bold text-gray-800 flex-grow"&gt;{currentProduct.title}&lt;/h1&gt;
             &lt;div className="flex items-center gap-4 pl-4"&gt;
-              &lt;button onClick={handleWishlistClick} aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}&gt;
+              &lt;button 
+                onClick={handleWishlistClick} 
+                aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'} 
+                aria-pressed={isWishlisted}
+              &gt;
                 &lt;FiHeart className={`w-6 h-6 transition-all ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-500 hover:text-red-500'}`} /&gt;
               &lt;/button&gt;
               &lt;button onClick={handleShareClick} aria-label="Share product"&gt;
@@ -476,36 +502,40 @@ const ProductDetailPage = () =&gt; {
               &lt;/button&gt;
             &lt;/div&gt;
           &lt;/div&gt;
-          &lt;p className="text-3xl text-gray-900 mb-4"&gt;₹{currentProduct.price.toFixed(2)}&lt;/p&gt;
+          &lt;p className="text-3xl text-gray-900 mb-4"&gt;
+            &lt;span className="sr-only"&gt;Price:&lt;/span&gt;
+            ₹{currentProduct.price.toFixed(2)}
+          &lt;/p&gt;
           &lt;p className="text-gray-600 mb-6"&gt;{currentProduct.description}&lt;/p&gt;
           
           &lt;div className="flex items-center gap-6"&gt;
             {renderActionButton()}
-            &lt;div className="flex items-center border rounded-md p-1"&gt;
-                &lt;button onClick={<span class="fstat-no" title="function not covered" >() =&gt; setQuantity(q =&gt; Math.max(1, q - 1))} d</span>isabled={quantity &lt;= 1} className="px-4 py-2 text-lg font-medium disabled:opacity-50"&gt;-&lt;/button&gt;
-                &lt;span className="px-5 py-2 text-lg font-semibold"&gt;{quantity}&lt;/span&gt;
-                &lt;button onClick={<span class="fstat-no" title="function not covered" >() =&gt; setQuantity(q =&gt; q + 1)} c</span>lassName="px-4 py-2 text-lg font-medium"&gt;+&lt;/button&gt;
+            &lt;div className="flex items-center border border-gray-400" role="group" aria-label="Quantity selector"&gt;
+                &lt;button onClick={<span class="fstat-no" title="function not covered" >() =&gt; setQuantity(q =&gt; Math.max(1, q - 1))} d</span>isabled={quantity &lt;= 1} className="px-4 py-2 text-lg font-medium disabled:opacity-50" aria-label="Decrease quantity"&gt;-&lt;/button&gt;
+                &lt;span className="px-5 py-2 text-lg font-semibold" role="status" aria-live="polite" aria-atomic="true"&gt;{quantity}&lt;/span&gt;
+                &lt;button onClick={<span class="fstat-no" title="function not covered" >() =&gt; setQuantity(q =&gt; q + 1)} c</span>lassName="px-4 py-2 text-lg font-medium" aria-label="Increase quantity"&gt;+&lt;/button&gt;
             &lt;/div&gt;
           &lt;/div&gt;
 &nbsp;
-          &lt;div className="mt-6 text-sm text-gray-500"&gt;
+          &lt;div className="mt-6 text-sm text-gray-500 flex gap-3"&gt;
               &lt;p&gt;✓ Free standard shipping&lt;/p&gt;
-              &lt;p&gt;✓ Free Returns&lt;/p&gt;
+              &lt;p&gt;&lt;a href="#" className="underline"&gt;Free Returns&lt;/a&gt;&lt;/p&gt;
           &lt;/div&gt;
-        &lt;/div&gt;
+        &lt;/section&gt;
       &lt;/div&gt;
-    &lt;/div&gt;
+    &lt;/main&gt;
   );
 };
 &nbsp;
-export default ProductDetailPage;</pre></td></tr></table></pre>
+export default ProductDetailPage;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-18T09:49:03.100Z
+                at 2025-07-18T14:36:31.351Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

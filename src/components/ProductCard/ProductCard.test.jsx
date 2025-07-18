@@ -1,15 +1,16 @@
+import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import ProductCard from './ProductCard';
+import ProductCard from './ProductCard'; // Adjust the import path as needed
 
-vi.mock('../../constants', () => ({
-  FALLBACK_IMAGES: [
-    'fallback1.jpg',
-    'fallback2.jpg',
-  ],
+// Mock the local image asset to prevent errors in the test environment.
+// Vitest will replace the import with this path.
+vi.mock('../../assets/product.png', () => ({
+  default: 'mock-fallback-product-image.png',
 }));
 
+// Helper function to wrap the component in a router for testing the <Link>
 const renderProductCard = (props) => {
   return render(
     <BrowserRouter>
@@ -20,48 +21,60 @@ const renderProductCard = (props) => {
 
 describe('ProductCard', () => {
   const mockProduct = {
-    id: 1,
-    title: 'Classic Leather Jacket',
-    price: 199.99,
-    image: 'jacket.jpg',
-    rating: 4.8,
+    id: 'prod-123',
+    title: 'Modern Wireless Keyboard',
+    price: 4500.50,
+    image: 'http://example.com/keyboard.jpg',
   };
 
-  it('renders product details correctly with given props', () => {
+  it('should render all product details correctly', () => {
     renderProductCard(mockProduct);
 
-    expect(screen.getByText('Classic Leather Jacket')).toBeInTheDocument();
+    // Check for the title
+    expect(screen.getByText('Modern Wireless Keyboard')).toBeInTheDocument();
     
-    expect(screen.getByText('₹199.99')).toBeInTheDocument();
-    
-    expect(screen.getByText('Rating: 4.8 ★')).toBeInTheDocument();
-    
-    const image = screen.getByRole('img', { name: /classic leather jacket/i });
-    expect(image).toBeInTheDocument();
-    expect(image).toHaveAttribute('src', 'jacket.jpg');
+    // Check for the correctly formatted price
+    expect(screen.getByText('₹4500.50')).toBeInTheDocument();
   });
 
-  it('renders with default props if none are provided', () => {
-    renderProductCard({ id: 2 });
+  it('should render a link that points to the correct product detail page', () => {
+    renderProductCard(mockProduct);
+
+    // The entire card should be a link
+    const linkElement = screen.getByRole('link');
+    expect(linkElement).toHaveAttribute('href', '/product/prod-123');
+  });
+
+  it('should render the product image with the correct src and alt attributes', () => {
+    renderProductCard(mockProduct);
+    const imageElement = screen.getByRole('img');
+
+    expect(imageElement).toHaveAttribute('src', 'http://example.com/keyboard.jpg');
+    expect(imageElement).toHaveAttribute('alt', 'Modern Wireless Keyboard');
+  });
+
+  it('should update the image src to the local fallback image on error', () => {
+    renderProductCard(mockProduct);
+    const imageElement = screen.getByRole('img');
+
+    // Simulate the browser's `onerror` event for the image
+    fireEvent.error(imageElement);
+
+    // Assert that the image source has been changed to the mocked fallback path
+    expect(imageElement).toHaveAttribute('src', 'mock-fallback-product-image.png');
+  });
+
+  it('should render with default props if none are provided', () => {
+    // We must provide an `id` as it's used in the `key` and `Link` `to` prop.
+    renderProductCard({ id: 'default-id' });
 
     expect(screen.getByText('Untitled Product')).toBeInTheDocument();
     expect(screen.getByText('₹0.00')).toBeInTheDocument();
-    expect(screen.getByText('Rating: 0.0 ★')).toBeInTheDocument();
-  });
-
-  it('navigates to the correct product detail page on click', () => {
-    renderProductCard(mockProduct);
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/product/1');
-  });
-
-  it('shows a fallback image when the primary image fails to load', () => {
-    renderProductCard(mockProduct);
-
-    const image = screen.getByRole('img');
+    const imageElement = screen.getByRole('img');
     
-    fireEvent.error(image);
-
-    expect(image).toHaveAttribute('src', 'fallback2.jpg');
+    // FIX: A `src=""` attribute can be resolved differently by browsers/JSDOM.
+    // It can be an empty string or the full page URL. This check handles both cases.
+    const possibleSrcValues = ['', window.location.href];
+    expect(possibleSrcValues).toContain(imageElement.src);
   });
 });

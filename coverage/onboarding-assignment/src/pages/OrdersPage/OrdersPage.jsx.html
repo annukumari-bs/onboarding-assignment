@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.14% </span>
+                <span class="strong">98.23% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>106/108</span>
+                <span class='fraction'>111/113</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">98.14% </span>
+                <span class="strong">98.23% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>106/108</span>
+                <span class='fraction'>111/113</span>
             </div>
         
             
@@ -188,7 +188,13 @@
 <a name='L123'></a><a href='#L123'>123</a>
 <a name='L124'></a><a href='#L124'>124</a>
 <a name='L125'></a><a href='#L125'>125</a>
-<a name='L126'></a><a href='#L126'>126</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L126'></a><a href='#L126'>126</a>
+<a name='L127'></a><a href='#L127'>127</a>
+<a name='L128'></a><a href='#L128'>128</a>
+<a name='L129'></a><a href='#L129'>129</a>
+<a name='L130'></a><a href='#L130'>130</a>
+<a name='L131'></a><a href='#L131'>131</a>
+<a name='L132'></a><a href='#L132'>132</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -259,7 +265,11 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
@@ -272,6 +282,7 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -313,7 +324,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useMemo, useState } from 'react';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchOrders } from '../../features/orders/orderSlice';
 &nbsp;
@@ -377,37 +389,42 @@ const OrdersPage = () =&gt; {
     };
 &nbsp;
     return (
-        &lt;div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12"&gt;
+        &lt;main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12"&gt;
             &lt;div className="flex justify-between items-center mb-8"&gt;
                 &lt;h1 className="text-4xl font-bold text-gray-800"&gt;My Orders&lt;/h1&gt;
-                &lt;select 
-                    className="border rounded-md px-3 py-1.5"
-                    value={timeFilter}
-                    onChange={(e) =&gt; setTimeFilter(e.target.value)}
-                &gt;
-                    &lt;option value="7"&gt;Last 7 Days&lt;/option&gt;
-                    &lt;option value="30"&gt;Last 30 Days&lt;/option&gt;
-                    &lt;option value="all"&gt;All Time&lt;/option&gt;
-                &lt;/select&gt;
+                &lt;div&gt;
+                    &lt;label htmlFor="time-filter" className="sr-only"&gt;Filter orders by time&lt;/label&gt;
+                    &lt;select 
+                        id="time-filter"
+                        className="border rounded-md px-3 py-1.5"
+                        value={timeFilter}
+                        onChange={(e) =&gt; setTimeFilter(e.target.value)}
+                    &gt;
+                        &lt;option value="all"&gt;All Time&lt;/option&gt;
+                        &lt;option value="7"&gt;Last 7 Days&lt;/option&gt;
+                        &lt;option value="30"&gt;Last 30 Days&lt;/option&gt;
+                    &lt;/select&gt;
+                &lt;/div&gt;
             &lt;/div&gt;
 &nbsp;
-            {status === 'loading' &amp;&amp; &lt;div className="text-center py-10"&gt;Loading your orders...&lt;/div&gt;}
-            {status === 'failed' &amp;&amp; &lt;div className="text-center py-10 text-red-500"&gt;Failed to load orders.&lt;/div&gt;}
+            {status === 'loading' &amp;&amp; &lt;div className="text-center py-10" role="status"&gt;Loading your orders...&lt;/div&gt;}
+            {status === 'failed' &amp;&amp; &lt;div className="text-center py-10 text-red-500" role="alert"&gt;Failed to load orders.&lt;/div&gt;}
             
             {status === 'succeeded' &amp;&amp; (
-                &lt;&gt;
+                &lt;section aria-live="polite" aria-atomic="true"&gt;
                     {filteredOrders.length &gt; 0 ? (
                         &lt;div className="bg-white rounded-lg shadow overflow-x-auto"&gt;
                             &lt;table className="min-w-full divide-y divide-gray-200"&gt;
+                                &lt;caption className="sr-only"&gt;A table of your past orders, including order number, customer name, payment status, amount, address, date, and order status.&lt;/caption&gt;
                                 &lt;thead className="bg-gray-50"&gt;
                                     &lt;tr&gt;
-                                        &lt;th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Order No.&lt;/th&gt;
-                                        &lt;th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Customer Name&lt;/th&gt;
-                                        &lt;th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Payment Status&lt;/th&gt;
-                                        &lt;th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Amount&lt;/th&gt;
-                                        &lt;th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Address&lt;/th&gt;
-                                        &lt;th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Order Date&lt;/th&gt;
-                                        &lt;th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Status&lt;/th&gt;
+                                        &lt;th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Order No.&lt;/th&gt;
+                                        &lt;th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Customer Name&lt;/th&gt;
+                                        &lt;th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Payment Status&lt;/th&gt;
+                                        &lt;th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Amount&lt;/th&gt;
+                                        &lt;th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Address&lt;/th&gt;
+                                        &lt;th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Order Date&lt;/th&gt;
+                                        &lt;th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"&gt;Status&lt;/th&gt;
                                     &lt;/tr&gt;
                                 &lt;/thead&gt;
                                 &lt;tbody className="bg-white divide-y divide-gray-200"&gt;
@@ -432,20 +449,21 @@ const OrdersPage = () =&gt; {
                             {orders.length &gt; 0 ? 'No orders found for the selected time period.' : "You haven't placed any orders yet."}
                         &lt;/div&gt;
                     )}
-                &lt;/&gt;
+                &lt;/section&gt;
             )}
-        &lt;/div&gt;
+        &lt;/main&gt;
     );
 };
 &nbsp;
-export default OrdersPage;</pre></td></tr></table></pre>
+export default OrdersPage;
+&nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-18T09:49:03.100Z
+                at 2025-07-18T14:36:31.351Z
             </div>
         <script src="../../../../prettify.js"></script>
         <script>

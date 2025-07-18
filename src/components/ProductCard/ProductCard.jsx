@@ -1,37 +1,39 @@
 import { Link } from 'react-router-dom';
-import { FALLBACK_IMAGES } from '../../constants';
+import productImage from '../../assets/product.png';
 
 const ProductCard = ({ 
   title = 'Untitled Product',
   price = 0,
-  image = '',  
-  rating = 0,
+  image = '',
   id 
 }) => {
 
   const handleImageError = (e) => {
-    const fallbackIndex = id % FALLBACK_IMAGES.length;
-    e.target.src = FALLBACK_IMAGES[fallbackIndex];
+    e.target.src = productImage;
   };
 
   return (
-    <Link to={`/product/${id}`} className="w-full max-w-xs bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300 border flex flex-col group">
-      <div className="overflow-hidden">
-        <img
-          src={image}
-          alt={title}
-          onError={handleImageError}
-          className="h-40 sm:h-48 w-full object-cover group-hover:scale-105 transition-transform duration-300"
-        />
-      </div>
-      <div className="p-4 flex flex-col flex-grow">
-        <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate w-full" title={title}>{title}</h3>
-        <p className="text-sm text-gray-600 mb-1">Rating: {rating.toFixed(1)} ★</p>
-        <div className="mt-auto pt-2">
-          <p className="text-lg md:text-xl font-bold text-black">₹{price.toFixed(2)}</p>
+    <article className="w-full max-w-xs overflow-hidden transition-shadow duration-300 flex flex-col group">
+      <Link to={`/product/${id}`} aria-label={`View details for ${title}`} className="flex flex-col flex-grow">
+        <div className="overflow-hidden">
+          <img
+            src={image}
+            alt={title}
+            onError={handleImageError}
+            className="w-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
         </div>
-      </div>
-    </Link>
+        <div className="py-2 flex flex-col flex-grow">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 truncate w-full" title={title}>{title}</h3>
+          <div className="mt-auto pt-2">
+            <p className="text-lg font-medium text-black">
+              <span className="sr-only">Price:</span>
+              ₹{price.toFixed(2)}
+            </p>
+          </div>
+        </div>
+      </Link>
+    </article>
   );
 };
 

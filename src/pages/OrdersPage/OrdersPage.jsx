@@ -62,37 +62,42 @@ const OrdersPage = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-4xl font-bold text-gray-800">My Orders</h1>
-                <select 
-                    className="border rounded-md px-3 py-1.5"
-                    value={timeFilter}
-                    onChange={(e) => setTimeFilter(e.target.value)}
-                >
-                    <option value="7">Last 7 Days</option>
-                    <option value="30">Last 30 Days</option>
-                    <option value="all">All Time</option>
-                </select>
+                <div>
+                    <label htmlFor="time-filter" className="sr-only">Filter orders by time</label>
+                    <select 
+                        id="time-filter"
+                        className="border rounded-md px-3 py-1.5"
+                        value={timeFilter}
+                        onChange={(e) => setTimeFilter(e.target.value)}
+                    >
+                        <option value="all">All Time</option>
+                        <option value="7">Last 7 Days</option>
+                        <option value="30">Last 30 Days</option>
+                    </select>
+                </div>
             </div>
 
-            {status === 'loading' && <div className="text-center py-10">Loading your orders...</div>}
-            {status === 'failed' && <div className="text-center py-10 text-red-500">Failed to load orders.</div>}
+            {status === 'loading' && <div className="text-center py-10" role="status">Loading your orders...</div>}
+            {status === 'failed' && <div className="text-center py-10 text-red-500" role="alert">Failed to load orders.</div>}
             
             {status === 'succeeded' && (
-                <>
+                <section aria-live="polite" aria-atomic="true">
                     {filteredOrders.length > 0 ? (
                         <div className="bg-white rounded-lg shadow overflow-x-auto">
                             <table className="min-w-full divide-y divide-gray-200">
+                                <caption className="sr-only">A table of your past orders, including order number, customer name, payment status, amount, address, date, and order status.</caption>
                                 <thead className="bg-gray-50">
                                     <tr>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order No.</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Status</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Date</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order No.</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer Name</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Payment Status</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Address</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Date</th>
+                                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody className="bg-white divide-y divide-gray-200">
@@ -117,9 +122,9 @@ const OrdersPage = () => {
                             {orders.length > 0 ? 'No orders found for the selected time period.' : "You haven't placed any orders yet."}
                         </div>
                     )}
-                </>
+                </section>
             )}
-        </div>
+        </main>
     );
 };
 

@@ -7,6 +7,7 @@ import { fetchProductById } from '../../features/products/productSlice';
 import { toggleWishlist } from '../../features/wishlist/wishlistSlice';
 import { addToCart } from '../../features/cart/cartSlice';
 import { FALLBACK_IMAGES } from '../../constants';
+import productImage from '../../assets/product.png';
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -62,8 +63,7 @@ const ProductDetailPage = () => {
   };
 
   const handleImageError = (e) => {
-    const fallbackIndex = Number(id) % FALLBACK_IMAGES.length;
-    e.target.src = FALLBACK_IMAGES[fallbackIndex];
+    e.target.src = productImage;
   };
 
   const renderActionButton = () => {
@@ -71,19 +71,20 @@ const ProductDetailPage = () => {
       return (
         <button
           onClick={() => navigate('/cart')}
-          className="w-full bg-green-600 text-white font-semibold px-8 py-3 rounded-md hover:bg-green-700 transition"
+          className="w-full bg-black text-white font-semibold px-8 py-3 hover:bg-white hover:text-black hover:border-black border transition"
         >
           Go to Cart
         </button>
       );
     }
 
-    const buttonText = isAlreadyInCart ? 'Update Cart' : 'Add to Cart';
+    const buttonText =  'Add to Cart';
     return (
       <button
         onClick={handleCartAction}
         disabled={isLoading}
-        className="bg-gray-900 text-white font-semibold px-8 py-3 rounded-md hover:bg-gray-700 transition flex-grow disabled:bg-gray-400 disabled:cursor-wait"
+        aria-busy={isLoading}
+        className="bg-gray-900 text-white font-semibold px-8 py-3 hover:bg-gray-700 transition flex-grow disabled:bg-gray-400 disabled:cursor-wait"
       >
         {isLoading ? 'Updating...' : `${buttonText} - ₹${(currentProduct.price * quantity).toFixed(2)}`}
       </button>
@@ -91,29 +92,34 @@ const ProductDetailPage = () => {
   };
 
   if (productStatus === 'loading') {
-    return <div className="text-center py-20">Loading Product...</div>;
+    return <div className="text-center py-20" role="status">Loading Product...</div>;
   }
 
   if (productStatus === 'failed' || !currentProduct) {
-    return <div className="text-center py-20">Failed to load product. Please try again.</div>;
+    return <div className="text-center py-20" role="alert">Failed to load product. Please try again.</div>;
   }
 
   return (
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2">
-                <img src={currentProduct.image} alt={currentProduct.title} onError={handleImageError} className="w-full h-auto object-cover rounded-lg shadow-lg" />
-            </div>
-            <img src="https://placehold.co/400x400/f0f0f0/ccc?text=+" alt="thumbnail" className="w-full h-auto object-cover rounded-lg" />
-            <img src="https://placehold.co/400x400/f0f0f0/ccc?text=+" alt="thumbnail" className="w-full h-auto object-cover rounded-lg" />
-        </div>
+            <section aria-label="Product image gallery">
+                <div className="grid grid-cols-2 gap-4">
+                    <img src={currentProduct.image} alt={`Alternative view 1 of ${currentProduct.title}`} onError={handleImageError} className="w-full h-auto object-cover" />
+                    <img src={currentProduct.image} alt={`Alternative view 2 of ${currentProduct.title}`} onError={handleImageError} className="w-full h-auto object-cover" />
+                    <img src={currentProduct.image} alt={`Alternative view 3 of ${currentProduct.title}`} onError={handleImageError} className="w-full h-auto object-cover" />
+                    <img src={currentProduct.image} alt={`Alternative view 4 of ${currentProduct.title}`} onError={handleImageError} className="w-full h-auto object-cover" />
+                </div>
+            </section>
 
-        <div>
+        <section aria-labelledby="product-heading">
           <div className="flex justify-between items-start mb-2">
-            <h1 className="text-4xl font-bold text-gray-800 flex-grow">{currentProduct.title}</h1>
+            <h1 id="product-heading" className="text-4xl font-bold text-gray-800 flex-grow">{currentProduct.title}</h1>
             <div className="flex items-center gap-4 pl-4">
-              <button onClick={handleWishlistClick} aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'}>
+              <button 
+                onClick={handleWishlistClick} 
+                aria-label={isWishlisted ? 'Remove from wishlist' : 'Add to wishlist'} 
+                aria-pressed={isWishlisted}
+              >
                 <FiHeart className={`w-6 h-6 transition-all ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-500 hover:text-red-500'}`} />
               </button>
               <button onClick={handleShareClick} aria-label="Share product">
@@ -121,25 +127,28 @@ const ProductDetailPage = () => {
               </button>
             </div>
           </div>
-          <p className="text-3xl text-gray-900 mb-4">₹{currentProduct.price.toFixed(2)}</p>
+          <p className="text-3xl text-gray-900 mb-4">
+            <span className="sr-only">Price:</span>
+            ₹{currentProduct.price.toFixed(2)}
+          </p>
           <p className="text-gray-600 mb-6">{currentProduct.description}</p>
           
           <div className="flex items-center gap-6">
             {renderActionButton()}
-            <div className="flex items-center border rounded-md p-1">
-                <button onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1} className="px-4 py-2 text-lg font-medium disabled:opacity-50">-</button>
-                <span className="px-5 py-2 text-lg font-semibold">{quantity}</span>
-                <button onClick={() => setQuantity(q => q + 1)} className="px-4 py-2 text-lg font-medium">+</button>
+            <div className="flex items-center border border-gray-400" role="group" aria-label="Quantity selector">
+                <button onClick={() => setQuantity(q => Math.max(1, q - 1))} disabled={quantity <= 1} className="px-4 py-2 text-lg font-medium disabled:opacity-50" aria-label="Decrease quantity">-</button>
+                <span className="px-5 py-2 text-lg font-semibold" role="status" aria-live="polite" aria-atomic="true">{quantity}</span>
+                <button onClick={() => setQuantity(q => q + 1)} className="px-4 py-2 text-lg font-medium" aria-label="Increase quantity">+</button>
             </div>
           </div>
 
-          <div className="mt-6 text-sm text-gray-500">
+          <div className="mt-6 text-sm text-gray-500 flex gap-3">
               <p>✓ Free standard shipping</p>
-              <p>✓ Free Returns</p>
+              <p><a href="#" className="underline">Free Returns</a></p>
           </div>
-        </div>
+        </section>
       </div>
-    </div>
+    </main>
   );
 };
 
