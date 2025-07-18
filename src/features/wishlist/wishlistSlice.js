@@ -3,7 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 const wishlistSlice = createSlice({
   name: 'wishlist',
   initialState: {
-    // An array of product IDs
     items: [],
   },
   reducers: {
@@ -12,10 +11,8 @@ const wishlistSlice = createSlice({
       const existingIndex = state.items.indexOf(productId);
       
       if (existingIndex >= 0) {
-        // Item is in wishlist, so remove it
         state.items.splice(existingIndex, 1);
       } else {
-        // Item is not in wishlist, so add it
         state.items.push(productId);
       }
     },

@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { BrowserRouter } from 'react-router-dom';
-import { Provider, useSelector } from 'react-redux';
+import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import Header from './Header';
 
@@ -14,8 +14,10 @@ vi.mock('react-redux', async (importOriginal) => {
 });
 
 vi.mock('../../utils/helper.js', () => ({
-  truncateQuantity: (quantity) => (quantity > 999 ? '999+' : quantity),
+  truncateQuantity: (quantity) => (quantity > 99 ? '99+' : quantity),
 }));
+
+const { useSelector } = await import('react-redux');
 
 const renderHeader = (mockState) => {
   useSelector.mockImplementation(callback => callback(mockState));
@@ -42,6 +44,7 @@ describe('Header', () => {
     expect(screen.getByRole('link', { name: /website/i })).toHaveAttribute('href', '/');
     expect(screen.getByRole('link', { name: /my orders/i })).toHaveAttribute('href', '/orders');
     expect(screen.getByRole('link', { name: /view shopping cart/i })).toHaveAttribute('href', '/cart');
+    expect(screen.getByRole('link', { name: /login/i })).toHaveAttribute('href', '/login');
   });
 
   it('does not display the cart count badge when the cart is empty', () => {
@@ -51,30 +54,31 @@ describe('Header', () => {
     expect(badge).not.toBeInTheDocument();
   });
 
-  it('displays the correct total item count when the cart has items', () => {
+  it('displays the correct unique item count when the cart has items', () => {
     const mockItems = [
       { productId: 1, quantity: 2 },
       { productId: 2, quantity: 3 },
     ];
     renderHeader({ cart: { items: mockItems } });
 
-    const badge = screen.getByText('5');
+    const badge = screen.getByText('2');
     expect(badge).toBeInTheDocument();
   });
 
-  it('truncates the cart count when it is 4 digits or more', () => {
-    const mockItems = [
-      { productId: 1, quantity: 500 },
-      { productId: 2, quantity: 500 },
-    ];
+  it('truncates the cart count when it exceeds the limit', () => {
+    const mockItems = Array.from({ length: 100 }, (_, i) => ({
+      productId: i + 1,
+      quantity: 1,
+    }));
+    
     renderHeader({ cart: { items: mockItems } });
 
-    const badge = screen.getByText('999+');
+    const badge = screen.getByText('99+');
     expect(badge).toBeInTheDocument();
   });
 
   it('handles an undefined or null cart state gracefully', () => {
-    renderHeader({});
+    renderHeader({}); 
 
     expect(screen.getByRole('link', { name: /website/i })).toBeInTheDocument();
     

@@ -5,14 +5,11 @@ import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { configureStore } from '@reduxjs/toolkit';
 import ProductDetailPage from './ProductDetailPage';
 
-// Import reducers to create a real store for testing
 import productReducer from '../../features/products/productSlice';
 import cartReducer from '../../features/cart/cartSlice';
 import wishlistReducer, { toggleWishlist } from '../../features/wishlist/wishlistSlice';
 
-// Mock dependencies
 vi.mock('../../hooks/useCartControls', () => ({ useCartControls: vi.fn() }));
-// FIX: The mock for fetchProductById now returns a valid action object.
 vi.mock('../../features/products/productSlice', async (orig) => {
     const original = await orig();
     return {
@@ -25,7 +22,7 @@ Object.assign(navigator, { clipboard: { writeText: vi.fn() } });
 
 import { useCartControls } from '../../hooks/useCartControls';
 import { toast } from 'react-toastify';
-import { fetchProductById } from '../../features/products/productSlice'; // Import the mocked function
+import { fetchProductById } from '../../features/products/productSlice';
 
 
 const renderPDP = (preloadedState, initialRoute = '/product/1') => {
@@ -38,7 +35,6 @@ const renderPDP = (preloadedState, initialRoute = '/product/1') => {
     preloadedState,
   });
   
-  // Spy on dispatch to track actions
   vi.spyOn(store, 'dispatch');
 
   return {
@@ -66,7 +62,6 @@ describe('ProductDetailPage with Wishlist', () => {
 
     beforeEach(() => {
         vi.clearAllMocks();
-        // Provide a default mock implementation for the cart controls hook
         useCartControls.mockReturnValue({
             quantityInCart: 0,
             handleIncrement: vi.fn(),
@@ -93,13 +88,11 @@ describe('ProductDetailPage with Wishlist', () => {
     it('dispatches toggleWishlist action when wishlist icon is clicked', () => {
         const { store } = renderPDP({
             products: { currentProduct: mockProduct, status: 'succeeded' },
-            wishlist: { items: [] } // Start with item not wishlisted
+            wishlist: { items: [] }
         });
 
         const wishlistButton = screen.getByRole('button', { name: /add to wishlist/i });
         fireEvent.click(wishlistButton);
-
-        // Check that the correct action was dispatched with the product ID
         expect(store.dispatch).toHaveBeenCalledWith(toggleWishlist(mockProduct.id));
         expect(toast.success).toHaveBeenCalledWith('Added to wishlist!');
     });

@@ -131,7 +131,7 @@ const ProductListingPage = () => {
 
           <div>
             <p className="text-lg font-semibold mb-2">Rating</p>
-            {[4, 3, 2, 1].map((rating) => (
+            {[4, 3].map((rating) => (
               <label key={rating} className="flex gap-2 items-center cursor-pointer">
                 <input
                   type="radio"

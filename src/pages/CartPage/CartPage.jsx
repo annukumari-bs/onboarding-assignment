@@ -1,12 +1,11 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { addToCart, removeFromCart, deleteFromCart } from '../../features/cart/cartSlice';
+import { deleteFromCart } from '../../features/cart/cartSlice';
 import { truncateQuantity } from '../../utils/helper.js';
 import { FALLBACK_IMAGES } from '../../constants';
 
-// Reusable Accordion Item Component
 const AccordionItem = ({ title, children }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -36,10 +35,13 @@ const CartPage = () => {
   const [loadingItemId, setLoadingItemId] = useState(null);
   const [couponCode, setCouponCode] = useState('');
 
-  const populatedCartItems = cartItems.map(item => {
-    const productDetails = allProducts.find(p => p.id === item.productId);
-    return { ...item, ...productDetails };
-  }).filter(item => item.id);
+  const populatedCartItems = useMemo(() => {
+    if (!allProducts.length) return [];
+    return cartItems.map(item => {
+      const productDetails = allProducts.find(p => String(p.id) === String(item.productId));
+      return { ...item, ...productDetails };
+    }).filter(item => item.id);
+  }, [cartItems, allProducts]);
 
   const subtotal = populatedCartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 
@@ -53,12 +55,12 @@ const CartPage = () => {
         toast.info("Cart updated.");
       }
     } catch (error) {
-      toast.error("Failed to update cart.",error);
+      toast.error("Failed to update cart.", error);
     } finally {
       setLoadingItemId(null);
     }
   };
-
+  
   const handleImageError = (e, productId) => {
     const fallbackIndex = productId % FALLBACK_IMAGES.length;
     e.target.src = FALLBACK_IMAGES[fallbackIndex];
@@ -70,7 +72,7 @@ const CartPage = () => {
 
   if (cartItems.length === 0) {
     return (
-        <div className="text-center py-20">
+        <div className="text-center py-20 px-4">
             <h1 className="text-3xl font-bold text-gray-700">Your Cart is Empty</h1>
             <Link to="/" className="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">
                 Continue Shopping
@@ -85,13 +87,12 @@ const CartPage = () => {
       <p className="mb-8 text-gray-500">Not ready to checkout? <Link to="/" className="text-blue-600 underline">Continue Shopping</Link></p>
       
       <div className="flex flex-col lg:flex-row gap-12">
-        {/* Left Side: Cart Items */}
-        <div className="lg:w-3/5">
+        <div className="lg:w-2/3">
           <div className="space-y-6">
             {populatedCartItems.map(item => {
               const isLoading = loadingItemId === item.productId;
               return (
-                <div key={item._id} className={`flex flex-col sm:flex-row items-start bg-white p-4 rounded-lg shadow-sm transition-opacity ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
+                <div key={item.productId} className={`flex flex-col sm:flex-row items-start bg-white p-4 rounded-lg shadow-sm transition-opacity ${isLoading ? 'opacity-50' : 'opacity-100'}`}>
                   <img 
                     src={item.image} 
                     alt={item.title} 
@@ -99,18 +100,13 @@ const CartPage = () => {
                     className="w-full sm:w-24 sm:h-24 h-48 object-cover rounded-md mb-4 sm:mb-0" 
                   />
                   <div className="ml-0 sm:ml-6 flex-grow w-full">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between lg:flex-col flex-row">
                       <h2 className="text-lg font-semibold text-gray-800">{item.title}</h2>
                       <p className="text-lg font-bold text-gray-900 sm:hidden">₹{item.price ? item.price.toFixed(2) : '0.00'}</p>
+                      <p className="text-base font-medium text-gray-900">Quantity: {truncateQuantity(item.quantity)}</p>
                     </div>
-                    <p className="text-lg font-bold text-gray-900 mb-2 hidden sm:block">₹{item.price ? item.price.toFixed(2) : '0.00'}</p>
-                    <div className="flex items-center justify-between mt-2">
-                      <div className="flex items-center">
-                        <span className="mr-4 text-sm text-gray-500">Quantity:</span>
-                        <button onClick={() => handleAction(removeFromCart(item.productId), item.productId)} disabled={isLoading} className="px-3 py-1 bg-gray-200 rounded-md disabled:cursor-not-allowed">-</button>
-                        <span className="px-4">{truncateQuantity(item.quantity)}</span>
-                        <button onClick={() => handleAction(addToCart(item.productId), item.productId)} disabled={isLoading} className="px-3 py-1 bg-gray-200 rounded-md disabled:cursor-not-allowed">+</button>
-                      </div>
+                    <div className="flex items-center justify-between mt-1">
+                    <p className="text-xl font-bold text-gray-900 mb-2 hidden sm:block">₹{item.price ? item.price.toFixed(2) : '0.00'}</p>
                       <button onClick={() => handleAction(deleteFromCart(item.productId), item.productId, item.title)} disabled={isLoading} className="text-gray-500 hover:text-red-600 text-sm underline disabled:cursor-not-allowed">Remove</button>
                     </div>
                   </div>
@@ -120,12 +116,10 @@ const CartPage = () => {
           </div>
         </div>
 
-        {/* Right Side: Order Summary */}
-        <div className="lg:w-2/5">
+        <div className="lg:w-1/3">
           <div className="bg-white p-6 rounded-lg shadow-sm">
             <h2 className="text-2xl font-semibold mb-6">Order Summary</h2>
             
-            {/* Coupon Code Section */}
             <div className="mb-6">
                 <input 
                     type="text" 
@@ -133,7 +127,7 @@ const CartPage = () => {
                     placeholder='Enter coupon code here' 
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
-                    className="w-full border-black border rounded-md shadow-sm p-2"
+                    className="w-full border-gray-300 border rounded-md shadow-sm p-2"
                 />
             </div>
 
@@ -158,8 +152,7 @@ const CartPage = () => {
         </div>
       </div>
 
-      {/* Order Information Section */}
-      <div className="mt-16 lg:w-3/5">
+      <div className="mt-16 lg:w-2/3">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">Order Information</h2>
         <div className="border-t">
             <AccordionItem title="Return Policy">

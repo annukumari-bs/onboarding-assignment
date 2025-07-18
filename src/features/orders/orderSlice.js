@@ -35,15 +35,14 @@ const ordersSlice = createSlice({
         builder
             .addCase(fetchOrders.pending, (state) => { state.status = 'loading'; })
             .addCase(fetchOrders.fulfilled, (state, action) => {
+                console.log("API Payload:", action.payload);
                 state.status = 'succeeded';
                 state.orders = action.payload;
             })
             .addCase(fetchOrders.rejected, (state, action) => { state.status = 'failed'; state.error = action.payload; })
-            // Handle placeOrder states
             .addCase(placeOrder.pending, (state) => { state.status = 'loading'; })
             .addCase(placeOrder.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                // Add the new order to the top of the list
                 state.orders.unshift(action.payload);
             })
             .addCase(placeOrder.rejected, (state, action) => { state.status = 'failed'; state.error = action.payload; });

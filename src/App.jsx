@@ -9,6 +9,7 @@ import ProductListingPage from './pages/ProductListingPage/ProductListingPage';
 import ProductDetailPage from './pages/ProductDetailPage/ProductDetailPage'
 import CartPage from './pages/CartPage/CartPage';
 import CheckoutPage from './pages/CheckoutPage/CheckoutPage';
+import OrdersPage from './pages/OrdersPage/OrdersPage';
 import { fetchCart } from './features/cart/cartSlice';
 import { fetchProducts } from './features/products/productSlice';
 
@@ -42,6 +43,7 @@ function App() {
             <Route path="/product/:id" element={<ProductDetailPage />} />
             <Route path="/cart" element={<CartPage />} />
             <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
           </Routes>
         </main>
         <Footer />

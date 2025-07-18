@@ -7,17 +7,16 @@ export const fetchCart = createAsyncThunk('cart/fetchCart', async (_, { rejectWi
 
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
-  async (productId, { rejectWithValue }) => {
+  async ({ productId, quantity }, { rejectWithValue }) => {
     try {
       const allCartItems = await getCartItems();
       const existingCartItem = allCartItems.find(item => item.productId === productId);
 
       if (existingCartItem) {
-        const payload = { userId: 1,productId: existingCartItem.id ,quantity: existingCartItem.quantity + 1 };
-        return await postToCart( payload);
+        return await postToCart({ userId: 550, productId: existingCartItem.id, quantity });
       } else {
-        const payload = { userId: 1, productId, quantity: 1 };
-        return await postToCart(payload);
+        localStorage.setItem('cart', quantity);
+        return await postToCart({ userId: 550, productId, quantity });
       }
     } catch (error) {
       return rejectWithValue(error.toString());
@@ -25,16 +24,13 @@ export const addToCart = createAsyncThunk(
   }
 );
 
-
 export const removeFromCart = createAsyncThunk('cart/removeFromCart', async (productId, { rejectWithValue }) => {
     try {
       const allCartItems = await getCartItems();
       const existingCartItem = allCartItems.find(item => item.productId === productId);
       if (!existingCartItem) throw new Error("Item not in cart.");
-
       if (existingCartItem.quantity > 1) {
-        const payload = { userId: 1,productId: existingCartItem.id ,quantity: existingCartItem.quantity - 1 };
-        return await postToCart(payload);
+        return await postToCart({ userId: 550, productId: existingCartItem.id,  quantity: existingCartItem.quantity - 1 });
       } else {
         await deleteCartItemAPI(existingCartItem.id);
         return { productId: existingCartItem.productId, removed: true };
@@ -62,6 +58,7 @@ const cartSlice = createSlice({
   reducers: {
     clearCart(state) {
         state.items = [];
+        localStorage.removeItem('cart');
     }
   },
   extraReducers: builder => {
