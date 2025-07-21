@@ -11,10 +11,15 @@ export const fetchProducts = createAsyncThunk(
 
 export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
-  async (productId, { rejectWithValue }) => {
+  async (productId, { getState, rejectWithValue }) => {
     try {
-      const response = await fetchProductByIdAPI(productId);
-      return response;
+      const product = await fetchProductByIdAPI(productId);
+      const state = getState();
+      const cartItem = state.cart.items.find(item => String(item.productId) === String(productId));
+      return {
+        ...product,
+        quantityInCart: cartItem ? cartItem.quantity : 0,
+      };
     } catch (error) {
       return rejectWithValue(error.toString());
     }

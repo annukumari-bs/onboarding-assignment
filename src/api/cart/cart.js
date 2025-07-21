@@ -2,7 +2,7 @@ import { BASE_URL } from '../../constants/index';
 
 export async function getCartItems() {
   try {
-    const response = await fetch(`${BASE_URL}/carts`);
+    const response = await fetch(`${BASE_URL}/carts/user/550`);
     const data = await response.json();
     if (!response.ok) throw new Error(data.message || 'Failed to fetch cart items');
     return data;

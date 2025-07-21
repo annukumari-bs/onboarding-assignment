@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { placeOrder } from '../../features/orders/orderSlice';
 import { clearCart } from '../../features/cart/cartSlice';
@@ -44,7 +44,7 @@ const CheckoutCartSummary = ({step}) => {
                     const isLoading = loadingItemId === item.productId;
                     return (
                     <li key={item.productId} className={`flex items-center gap-4 transition-opacity ${isLoading ? 'opacity-50' : ''}`} aria-busy={isLoading}>
-                        <img src={item.image} onError={handleImageError} alt={item.title} className="w-16 h-16 sm:w-20 sm:h-20 object-cover" />
+                        <img src={item.image} onError={handleImageError} alt={item.title} className="w-16 h-16 sm:w-20 sm:h-20 rounded-md object-cover" />
                         <div className='flex flex-col w-full'>
                             <p className="font-semibold">{item.title}</p>
                             <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
@@ -180,6 +180,17 @@ const CheckoutPage = () => {
         }
     };
 
+    if (cartItems.length === 0) {
+        return (
+            <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+                <h1 className="text-3xl font-bold text-gray-700 mb-6">Your cart is empty</h1>
+                <Link to="/" className="mt-6 inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition">
+                    Continue Shopping
+                </Link>
+            </main>
+        );
+    }
+
     return (
         <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 text-center sm:text-left">Checkout</h1>
@@ -187,7 +198,11 @@ const CheckoutPage = () => {
                 <section className="lg:w-3/5" aria-labelledby="checkout-heading">
                     <h2 id="checkout-heading" className="sr-only">Checkout form</h2>
                     <div className="flex items-center mb-6 w-full max-w-md mx-auto lg:mx-28" role="navigation" aria-label="Checkout steps">
-                        <span className={`font-semibold ${step === 'address' ? 'text-black' : 'text-gray-500'}`} aria-current={step === 'address' ? 'step' : undefined}>Address</span>
+                        {step === 'payment' ? (
+                            <button onClick={() => setStep('address')} className="font-semibold" aria-current="false">Address</button>
+                        ) : (
+                            <span className={`font-semibold text-black`} aria-current="step">Address</span>
+                        )}
                         <div className="flex-grow border-t mx-4" aria-hidden="true"></div>
                         <span className={`font-semibold ${step === 'payment' ? 'text-black' : 'text-gray-500'}`} aria-current={step === 'payment' ? 'step' : undefined}>Payment</span>
                     </div>
@@ -226,7 +241,7 @@ const CheckoutPage = () => {
                                     {errors.zipcode && <p id="zipcode-error" className="text-red-500 text-xs mt-1">{errors.zipcode}</p>}
                                 </div>
                             </div>
-                            <button type="submit" className="w-full mt-6 bg-gray-900 text-white py-3 hover:bg-gray-700 transition">
+                            <button type="submit" className="w-full mt-6 bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-700 transition">
                                 Continue to Payment
                             </button>
                         </form>
@@ -234,7 +249,10 @@ const CheckoutPage = () => {
 
                     {step === 'payment' && (
                         <form onSubmit={handlePaymentSubmit} noValidate ref={formRef}>
-                             <h2 className="text-2xl font-semibold mb-4">Payment Details</h2>
+                             <div className="flex justify-between items-center mb-4">
+                                <h2 className="text-2xl font-semibold">Payment Details</h2>
+                                <button type="button" onClick={() => setStep('address')} className="text-sm text-blue-600 hover:underline">Back to address</button>
+                             </div>
                              <div className="space-y-4">
                                 <div>
                                     <label htmlFor="cardholderName" className="sr-only">Cardholder Name</label>
@@ -265,7 +283,7 @@ const CheckoutPage = () => {
                                     </div>
                                 </fieldset>
                              </div>
-                             <button type="submit" className="w-full mt-6 bg-gray-900 text-white py-3 hover:bg-gray-700 transition">
+                             <button type="submit" className="w-full mt-6 bg-gray-900 text-white py-3 rounded-lg hover:bg-gray-700 transition">
                                 Pay with card
                             </button>
                         </form>

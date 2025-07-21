@@ -10,7 +10,7 @@ const OrdersPage = () => {
 
     useEffect(() => {
         if (status === 'idle') {
-            dispatch(fetchOrders(1));
+            dispatch(fetchOrders(550));
         }
     }, [status, dispatch]);
 

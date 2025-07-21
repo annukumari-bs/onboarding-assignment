@@ -40,7 +40,7 @@ describe('ordersSlice', () => {
   });
 
   describe('placeOrder async thunk', () => {
-    const mockNewOrder = { id: 3, userId: 1, products: [] };
+    const mockNewOrder = { id: 3, userId: 550, products: [] };
     const existingState = {
         ...initialState,
         orders: [{ id: 1, total: 100 }, { id: 2, total: 150 }],
