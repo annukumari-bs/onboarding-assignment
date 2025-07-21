@@ -6,7 +6,6 @@ import { FiHeart, FiShare2 } from 'react-icons/fi';
 import { fetchProductById } from '../../features/products/productSlice';
 import { toggleWishlist } from '../../features/wishlist/wishlistSlice';
 import { addToCart } from '../../features/cart/cartSlice';
-import { FALLBACK_IMAGES } from '../../constants';
 import productImage from '../../assets/product.png';
 
 const ProductDetailPage = () => {

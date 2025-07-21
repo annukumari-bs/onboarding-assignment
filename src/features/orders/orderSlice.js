@@ -35,7 +35,6 @@ const ordersSlice = createSlice({
         builder
             .addCase(fetchOrders.pending, (state) => { state.status = 'loading'; })
             .addCase(fetchOrders.fulfilled, (state, action) => {
-                console.log("API Payload:", action.payload);
                 state.status = 'succeeded';
                 state.orders = action.payload;
             })

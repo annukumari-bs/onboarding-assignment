@@ -22,10 +22,6 @@ vi.mock('react-toastify', () => ({
 
 vi.mock('../../features/cart/cartSlice');
 
-vi.mock('../../constants', () => ({
-    FALLBACK_IMAGES: ['fallback1.jpg', 'fallback2.jpg'],
-}));
-
 describe('CartPage', () => {
   const dispatch = vi.fn();
 
