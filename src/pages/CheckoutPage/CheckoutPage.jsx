@@ -163,7 +163,7 @@ const CheckoutPage = () => {
         if (!validateStep('payment')) return;
         const { firstName, lastName, addressLine1, addressLine2, city, zipcode } = formData;
         const orderPayload = {
-            userId: "88",
+            userId: "550",
             products: cartItems.map(item => ({ productId: item.productId, quantity: item.quantity })),
             paymentStatus: "PAID",
             orderStatus: "CONFIRMED",
