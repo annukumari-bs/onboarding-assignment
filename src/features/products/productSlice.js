@@ -1,0 +1,64 @@
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { fetchAllProducts, fetchProductById as fetchProductByIdAPI } from '../../api/product/product';
+
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    const response = await fetchAllProducts();
+    return response.products;
+  }
+);
+
+export const fetchProductById = createAsyncThunk(
+  'products/fetchProductById',
+  async (productId, { getState, rejectWithValue }) => {
+    try {
+      const product = await fetchProductByIdAPI(productId);
+      const state = getState();
+      const cartItem = state.cart.items.find(item => String(item.productId) === String(productId));
+      return {
+        ...product,
+        quantityInCart: cartItem ? cartItem.quantity : 0,
+      };
+    } catch (error) {
+      return rejectWithValue(error.toString());
+    }
+  }
+);
+
+const productSlice = createSlice({
+  name: 'products',
+  initialState: {
+    all: [],
+    currentProduct: null,
+    status: 'idle',
+    error: null,
+  },
+  reducers: {},
+  extraReducers: builder => {
+    builder
+      .addCase(fetchProducts.pending, state => { state.status = 'loading'; })
+      .addCase(fetchProducts.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.all = action.payload;
+      })
+      .addCase(fetchProducts.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message;
+      })
+      .addCase(fetchProductById.pending, (state) => {
+        state.status = 'loading';
+        state.currentProduct = null;
+      })
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.currentProduct = action.payload;
+      })
+      .addCase(fetchProductById.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload;
+      });
+  },
+});
+
+export default productSlice.reducer;
