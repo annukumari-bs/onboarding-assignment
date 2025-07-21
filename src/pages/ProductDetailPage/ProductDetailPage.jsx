@@ -20,7 +20,6 @@ const ProductDetailPage = () => {
   const { currentProduct, status: productStatus } = useSelector(state => state.products);
   const wishlistedItems = useSelector(state => state.wishlist?.items || []);
   const cartItem = useSelector(state => state.cart.items.find(item => item.productId === currentProduct?.id));
-  console.log(cartItem, 'cartItem');
 
   const isWishlisted = currentProduct ? wishlistedItems.includes(currentProduct.id) : false;
   const quantityInCart = cartItem ? cartItem.quantity : 0;
